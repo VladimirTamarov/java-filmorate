@@ -3,7 +3,6 @@ package ru.yandex.practicum.filmorate.controller;
 
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.Film;
@@ -12,7 +11,7 @@ import java.time.LocalDate;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+
 @Slf4j
 @RestController
 @RequestMapping("/films")
@@ -37,7 +36,7 @@ public class FilmController {
 
         }
         film.setId(getNextId());
-        log.debug("Фильму с названием {} присвоен ID {}", film.getName(),film.getId());
+        log.debug("Фильму с названием {} присвоен ID {}", film.getName(), film.getId());
         films.put(film.getId(), film);
         log.debug("Фильм {} сохранён", film.getName());
         return film;
