@@ -8,15 +8,15 @@ import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 @RestController
 @RequestMapping("/users")
 
 public class UserController {
-    private final Map<Long, User> users = new HashMap<>();
+    private final Map<Long, User> users = new ConcurrentHashMap<>();
 
     @GetMapping
     public Collection<User> getAll() {
@@ -24,7 +24,7 @@ public class UserController {
     }
 
     @PostMapping
-    public User create(@Valid @RequestBody User newUser) {
+    public User create(@Valid @RequestBody User newUser) throws ValidationException {
         log.info("Обработка метода POST для пользователя {}", newUser);
         if (newUser.getLogin().contains(" ")) {
             log.warn("Login пользователя ({}) содержит пробелы. Пользователь не содан", newUser.getLogin());
@@ -45,7 +45,7 @@ public class UserController {
     }
 
     @PutMapping
-    public User update(@Valid @RequestBody User updatedUser) {
+    public User update(@Valid @RequestBody User updatedUser) throws ValidationException {
         log.info("Обработка метода PUT для пользователя {}", updatedUser);
         if (users.containsKey(updatedUser.getId())) {
             if (updatedUser.getLogin().contains(" ")) {
